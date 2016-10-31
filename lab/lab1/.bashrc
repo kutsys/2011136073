@@ -22,30 +22,30 @@ if [ "$PS1" ]; then	 #01
       ;;
     esac
   fi
-#01. ÇöÀç ¶°ÀÖ´Â ÇÁ·ÒÇÁÆ®°¡ Ä¿¸ÇµåÇÁ·ÒÇÁÆ®ÀÌ°í
-#02. Ä¿¸Çµå ÇÁ·ÒÇÁÆ® ½ºÆ®¸µÀÌ ºñ¾îÀÖ´Ù¸é
-#03. TERMÀÌ¶ó´Â º¯¼ö°¡
-#04. xterm*, vte* ¶ó´Â º¯¼ö¸¦ °¡Áö°í ÀÖÀ» ¶§
-#05. /etc/sysconfig/¿¡ bash-prompt-xterm ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é
-#06. ÇØ´ç bash-prompt-xterm ÆÄÀÏÀ» ½ÇÇà
-#07. bash-prompt-xterm ÆÄÀÏÀÌ ¾ø°í, {VTE_VERSION:-0}ÀÌ¶ó´Â º¯¼ö°¡ 3405º¸´Ù Å©°Å³ª °°À¸¸é
-#08. __vte_prompt_command¶ó´Â ¸í·É¾î ½ÇÇà
-#09. À§ µÎ Á¶°ÇÀ» ¸ðµÎ ¸¸Á·ÇÏÁö ¾ÊÀ¸¸é ´ÙÀ½°ú °°Àº Ä¿¸Çµå ½ÇÇà
-#10. TERMÀÌ¶ó´Â º¯¼ö°¡ screen* ÀÌ¶ó´Â ÆÐÅÏÀ» °¡Áö°í ÀÖÀ» ¶§
-#11. bash-prompt-screen ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é
-#12. ÇØ´ç bash-prompt-screen ÆÄÀÏ ½ÇÇà
-#13. ¾øÀ¸¸é ´ÙÀ½ Ä¿¸Çµå ½ÇÇà
-#14. TERMÀÌ¶ó´Â º¯¼ö°¡ À§ ÆÐÅÏÀ» ¸ðµÎ ¸¸Á·ÇÏÁö ¾ÊÀ» ¶§
-#15. bash-prompt-default ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é ÇØ´ç ÆÄÀÏ ½ÇÇà
+#01. í˜„ìž¬ ë– ìžˆëŠ” í”„ë¡¬í”„íŠ¸ê°€ ì»¤ë§¨ë“œí”„ë¡¬í”„íŠ¸ì´ê³ 
+#02. ì»¤ë§¨ë“œ í”„ë¡¬í”„íŠ¸ ìŠ¤íŠ¸ë§ì´ ë¹„ì–´ìžˆë‹¤ë©´
+#03. TERMì´ë¼ëŠ” ë³€ìˆ˜ê°€
+#04. xterm*, vte* ë¼ëŠ” ë³€ìˆ˜ë¥¼ ê°€ì§€ê³  ìžˆì„ ë•Œ
+#05. /etc/sysconfig/ì— bash-prompt-xterm íŒŒì¼ì´ ì¡´ìž¬í•˜ë©´
+#06. í•´ë‹¹ bash-prompt-xterm íŒŒì¼ì„ ì‹¤í–‰
+#07. bash-prompt-xterm íŒŒì¼ì´ ì—†ê³ , {VTE_VERSION:-0}ì´ë¼ëŠ” ë³€ìˆ˜ê°€ 3405ë³´ë‹¤ í¬ê±°ë‚˜ ê°™ìœ¼ë©´
+#08. __vte_prompt_commandë¼ëŠ” ëª…ë ¹ì–´ ì‹¤í–‰
+#09. ìœ„ ë‘ ì¡°ê±´ì„ ëª¨ë‘ ë§Œì¡±í•˜ì§€ ì•Šìœ¼ë©´ ë‹¤ìŒê³¼ ê°™ì€ ì»¤ë§¨ë“œ ì‹¤í–‰
+#10. TERMì´ë¼ëŠ” ë³€ìˆ˜ê°€ screen* ì´ë¼ëŠ” íŒ¨í„´ì„ ê°€ì§€ê³  ìžˆì„ ë•Œ
+#11. bash-prompt-screen íŒŒì¼ì´ ì¡´ìž¬í•˜ë©´
+#12. í•´ë‹¹ bash-prompt-screen íŒŒì¼ ì‹¤í–‰
+#13. ì—†ìœ¼ë©´ ë‹¤ìŒ ì»¤ë§¨ë“œ ì‹¤í–‰
+#14. TERMì´ë¼ëŠ” ë³€ìˆ˜ê°€ ìœ„ íŒ¨í„´ì„ ëª¨ë‘ ë§Œì¡±í•˜ì§€ ì•Šì„ ë•Œ
+#15. bash-prompt-default íŒŒì¼ì´ ì¡´ìž¬í•˜ë©´ í•´ë‹¹ íŒŒì¼ ì‹¤í–‰
   shopt ?s histappend #16
   history ?a #17
   shopt ?s checkwinsize #18
   [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\h \W]\\$ " #19
 fi
-#16. ½© ¿É¼Ç Áß histappend ¶ó´Â ¿É¼Ç È°¼ºÈ­(set)
-#17. »õ·Î¿î history ¶óÀÎµéÀ» Ãß°¡ÇÑ´Ù.
-#18. ½© ¿É¼Ç Áß checkwinsize ¶ó´Â ¿É¼Ç È°¼ºÈ­(set)
-#19. ÇöÀç PS1³»¿ëÀÌ \\s-\\v\\\$¸é PS1¿¡ "[\u@\h \W]\\$ " ¹®ÀÚ¿­À» ³ÖÀ½
+#16. ì‰˜ ì˜µì…˜ ì¤‘ histappend ë¼ëŠ” ì˜µì…˜ í™œì„±í™”(set)
+#17. ìƒˆë¡œìš´ history ë¼ì¸ë“¤ì„ ì¶”ê°€í•œë‹¤.
+#18. ì‰˜ ì˜µì…˜ ì¤‘ checkwinsize ë¼ëŠ” ì˜µì…˜ í™œì„±í™”(set)
+#19. í˜„ìž¬ PS1ë‚´ìš©ì´ \\s-\\v\\\$ë©´ PS1ì— "[\u@\h \W]\\$ " ë¬¸ìžì—´ì„ ë„£ìŒ
 if ! shopt -q login_shell ; then #20
     # Need to redefine pathmunge, it get's undefined at the end of /etc/profile #21
     pathmunge () {	#22
@@ -61,16 +61,16 @@ if ! shopt -q login_shell ; then #20
         esac
     }
 
-#20. ·Î±×ÀÎ½©ÀÌ Á¤»óÇ¥½Ã°¡ °¡´ÉÇÑ »óÅÂ°¡ ¾Æ´Ï¸é
-#21. /etc/profile ÆÄÀÏ ³¡¿¡ Á¤ÀÇ°¡ µÇ¾îÀÖÁö ¾Ê¾Æ¼­ pathmunge¸¦ Àç¼³Á¤ ÇØ¾ßÇÑ´Ù.
-#22. »ç¿ëÀÚ Á¤ÀÇ ÇÔ¼ö¸¦ »ý¼º
-#23. $PATH º¯¼ö¿¡
-#24. ¡°$1¡±°¡ Áß°£¿¡ µé¾îÀÖÀ¸¸é ¾Æ¹«°Íµµ ¾ÈÇÔ
-#25. À§ Á¶°ÇÀÌ ¾È¸Â°í
-#26. º¯¼ö $2ÀÇ ³»¿ë¹°ÀÌ after¶ó´Â ½ºÆ®¸µÀÌ¸é
-#27. PATH º¯¼ö µÚ¿¡ $1 Ãß°¡
-#28. after ½ºÆ®¸µÀÌ ¾Æ´Ï¸é
-#29. PATH º¯¼ö ¾Õ¿¡ $1 Ãß°¡
+#20. ë¡œê·¸ì¸ì‰˜ì´ ì •ìƒí‘œì‹œê°€ ê°€ëŠ¥í•œ ìƒíƒœê°€ ì•„ë‹ˆë©´
+#21. /etc/profile íŒŒì¼ ëì— ì •ì˜ê°€ ë˜ì–´ìžˆì§€ ì•Šì•„ì„œ pathmungeë¥¼ ìž¬ì„¤ì • í•´ì•¼í•œë‹¤.
+#22. ì‚¬ìš©ìž ì •ì˜ í•¨ìˆ˜ë¥¼ ìƒì„±
+#23. $PATH ë³€ìˆ˜ì—
+#24. â€œ$1â€ê°€ ì¤‘ê°„ì— ë“¤ì–´ìžˆìœ¼ë©´ ì•„ë¬´ê²ƒë„ ì•ˆí•¨
+#25. ìœ„ ì¡°ê±´ì´ ì•ˆë§žê³ 
+#26. ë³€ìˆ˜ $2ì˜ ë‚´ìš©ë¬¼ì´ afterë¼ëŠ” ìŠ¤íŠ¸ë§ì´ë©´
+#27. PATH ë³€ìˆ˜ ë’¤ì— $1 ì¶”ê°€
+#28. after ìŠ¤íŠ¸ë§ì´ ì•„ë‹ˆë©´
+#29. PATH ë³€ìˆ˜ ì•žì— $1 ì¶”ê°€
 
     if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then	#30
        umask 002					#31
@@ -94,13 +94,13 @@ if ! shopt -q login_shell ; then #20
     unset -f pathmunge		# 
 fi
 
-#30. UIDº¯¼ö°¡ 199º¸´Ù Å©°í, ±×·ìÀÌ¸§°ú À¯ÀúÀÌ¸§ÀÌ °°´Ù¸é
-#31. umask¸¦ 002·Î
-#32. ¾Æ´Ï¸é 022·Î ÁöÁ¤
-#33. ±âº» ½©À» bash·Î ÁöÁ¤
-#34. i¸¦ /etc/profile.d/¿¡ Á¸ÀçÇÏ´Â .sh ÆÄÀÏµéÀÇ ÀÌ¸§µé·Î ¹Ù²ã°¡¸é¼­ ½ÇÇà
-#35. ¸¸¾à iº¯¼ö(shÆÄÀÏ)¸¦ ÀÐÀ» ¼ö ÀÖ°í
-#36. PS1 º¯¼ö¿¡ °ª(ÆÄÀÏÀÌ¸§)ÀÌ Á¸ÀçÇÏ¸é
-#37. ÇØ´ç ÆÄÀÏ(i.sh)À» ½ÇÇà
-#38. PS1 º¯¼ö¿¡ °ªÀÌ ¾øÀ¸¸é ½ºÅµ
-#39. º¯¼ö i¿Í ÇÔ¼ö pathmunge ¼±¾ð ÇØÁ¦
+#30. UIDë³€ìˆ˜ê°€ 199ë³´ë‹¤ í¬ê³ , ê·¸ë£¹ì´ë¦„ê³¼ ìœ ì €ì´ë¦„ì´ ê°™ë‹¤ë©´
+#31. umaskë¥¼ 002ë¡œ
+#32. ì•„ë‹ˆë©´ 022ë¡œ ì§€ì •
+#33. ê¸°ë³¸ ì‰˜ì„ bashë¡œ ì§€ì •
+#34. ië¥¼ /etc/profile.d/ì— ì¡´ìž¬í•˜ëŠ” .sh íŒŒì¼ë“¤ì˜ ì´ë¦„ë“¤ë¡œ ë°”ê¿”ê°€ë©´ì„œ ì‹¤í–‰
+#35. ë§Œì•½ ië³€ìˆ˜(shíŒŒì¼)ë¥¼ ì½ì„ ìˆ˜ ìžˆê³ 
+#36. PS1 ë³€ìˆ˜ì— ê°’(íŒŒì¼ì´ë¦„)ì´ ì¡´ìž¬í•˜ë©´
+#37. í•´ë‹¹ íŒŒì¼(i.sh)ì„ ì‹¤í–‰
+#38. PS1 ë³€ìˆ˜ì— ê°’ì´ ì—†ìœ¼ë©´ ìŠ¤í‚µ
+#39. ë³€ìˆ˜ iì™€ í•¨ìˆ˜ pathmunge ì„ ì–¸ í•´ì œ
