@@ -17,7 +17,6 @@ int main(){
 	}
 	else if(tmp_pid == 0){
 		while(1){
-			printf("this is fuck?");
 			system("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}' > ptest_pid.txt");
 			if((rfp = fopen("ptest_pid.txt", "r")) == NULL){
 				printf("fopen error");
