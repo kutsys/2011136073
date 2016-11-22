@@ -1,17 +1,33 @@
+all: mtest
+
+# Which compiler
+CC = gcc
+
+# Where are include files kept
+INCLUDE = .
+
+# Final Compile option
+COMOP = -o mtest
+
+.PHONY : all clean
+
 mtest : mtest.o foo.o boo.o bar.o libmy.a
-	gcc -o mtest mtest.o -L. -lmy
+	$(CC) $(COMOP) mtest.o -L$(INCLUDE) -lmy
 
 mtest.o : mtest.c
-	gcc -c mtest.c
+	$(CC) -c mtest.c
 
 libmy.a : foo.o boo.o bar.o
 	ar crv libmy.a foo.o boo.o bar.o
 
 foo.o : foo.c
-	gcc -c foo.c
+	$(CC) -c foo.c
 
 boo.o : boo.c
-	gcc -c boo.c
+	$(CC) -c boo.c
 
 bar.o : bar.c
-	gcc -c bar.c
+	$(CC) -c bar.c
+
+clean :
+	rm *.o *.a mtest
