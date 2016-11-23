@@ -1,103 +1,96 @@
 #include <stdio.h>
-#include <time.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+
+void monitor(int sig){
+	FILE* p;
+	char buf[10] = {'\0'};
+	if((p = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
+		printf("popen error");
+	}
+	if(fgets(buf, 10, p) == NULL){
+		printf("not existed\n>> ");
+	}
+	else{
+		printf("running\n>> ");
+	}
+	pclose(p);
+	fflush(stdout);
+	alarm(5);
+}
 
 int main(){
 	char menu;
-	pid_t tmp_pid;
-	pid_t ptest_pid;
-	int ptest_stat;
-	FILE* rfp;
+	char buff[10];
+	FILE* tmp;
+	int i = 0;
 
+	(void) signal(SIGALRM, monitor);
+	alarm(5);
 
-	tmp_pid = fork();
-	if(tmp_pid == -1){
-		printf("failed fork");
-	}
-	else if(tmp_pid == 0){
-		while(1){
-			system("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}' > ptest_pid.txt");
-			if((rfp = fopen("ptest_pid.txt", "r")) == NULL){
-				printf("fopen error");
-			}
-			if(feof(rfp)){
-				printf("not existed");
-			}
-			else{
-				printf("running");
-			}
-			fclose(rfp);
-			sleep(5);
-		}
-	}
-	printf("Manual\nQ : quit pmon\nK : kill ptest forcely\nS : start ptest\nR : kill ptest and restart ptest\n");
+	printf("Manual\nQ : quit pmon\nK : kill ptest\nS : start ptest\nR : quit ptest and restart ptest\n");
 	while(1){
 		printf(">> ");
-		scanf("%c", &menu);
-		__fpurge(stdin);// buffer cleaning
+		//scanf("%c", &menu);
+		menu = getc(stdin);
+		__fpurge(stdin);	//	buffer cleaning
 		if(menu == 'Q' || menu == 'q'){
 			printf("pmon said : Good Bye\n");
 			break;
 		}
 		else if(menu == 'K' || menu == 'k'){
-			system("kill -9 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
-			printf("pmon said : killed ptest\n");
+			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
+				printf("popen error2");
+			}
+			if(fgets(buff, 10, tmp) != NULL){
+				system("kill -9 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
+				printf("pmon said : killed ptest\n");
+			}
+			else{
+				printf("pmon said : no exist ptest\n");
+			}
+			pclose(tmp);
 		}
 		else if(menu == 'S' || menu == 's'){
-			system("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}' > ptest_pid.txt");
-			if((rfp = fopen("ptest_pid.txt", "r")) == NULL){
-					printf("file open error");
+			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
+				printf("popen error3");
 			}
-			if(feof(rfp)){	// if EOF, return true
-				//tmp_pid = fork();
-				//if(tmp_pid == 0) {
-					execl("./ptest", "./ptest");
-				/*}
-				else if(tmp_pid == -1){
-					printf("failed fork");
-					exit(1);
-				}*/
+			if(fgets(buff, 10, tmp) == NULL){
+				printf("start\n");
+				alarm(0);
+				execl("./ptest", "./ptest");
 			}
 			else{
 				printf("already running\n");
 			}
-			fclose(rfp);
+			pclose(tmp);
 		}
 		else if(menu == 'R' || menu == 'r'){
-			if((rfp = fopen("ptest_pid.txt", "r")) == NULL){
-				printf("file open error");
+			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
+				printf("popen error4");
 			}
-			if(feof(rfp)){	//if EOF, return true
-				printf("newly started");
-				//tmp_pid = fork();
-				//if(tmp_pid == 0){
-					execl("./ptest", "./ptest");
-				/*}
-				else if(tmp_pid == -1){
-					printf("failed fork");
-					exit(1);
-				}*/
+			if(fgets(buff, 10, tmp) == NULL){
+				printf("newly started\n");
+				alarm(0);
+				execl("./ptest", "./ptest");
 			}
 			else{
-				system("kill -19 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");	//	-19 is quit. not kill
-				//tmp_pid = fork();
-				//if(tmp_pid == 0){
-					execl("./ptest", "./ptest");
-				/*}
-				else if(tmp_pid == -1){
-					printf("failed fork");
-					exit(1);
-				}*/
+				system("kill -19 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
+				alarm(0);
+				execl("./ptest", "./ptest");
 			}
-			fclose(rfp);
+			pclose(tmp);
 		}
 		else{
-			printf("incorrect command. please Retry\n");
+			printf("incorrect commnad. please retry\n");
 			continue;
 		}
-
-
+		for(i=0; i<10; i++){
+			buff[i] = '\0';
+		}
 	}
+
+
 	return 0;
 }
