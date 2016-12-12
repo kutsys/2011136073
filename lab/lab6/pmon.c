@@ -59,7 +59,7 @@ int main(){
 			if(fgets(buff, 10, tmp) == NULL){
 				printf("start\n");
 				alarm(0);
-				execl("./ptest", "./ptest");
+				execl("./ptest", "./ptest", NULL);
 			}
 			else{
 				printf("already running\n");
@@ -73,12 +73,12 @@ int main(){
 			if(fgets(buff, 10, tmp) == NULL){
 				printf("newly started\n");
 				alarm(0);
-				execl("./ptest", "./ptest");
+				execl("./ptest", "./ptest", NULL);
 			}
 			else{
 				system("kill -19 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
 				alarm(0);
-				execl("./ptest", "./ptest");
+				execl("./ptest", "./ptest", NULL);
 			}
 			pclose(tmp);
 		}
