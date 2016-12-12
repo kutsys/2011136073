@@ -35,7 +35,6 @@ int main(){
 		for(i=0; i<10; i++){
 			if(checklist[i]){
 				if(read(fds[i][0], buf, sizeof(buf))){
-					printf("%d : %d\n", pid[i], buf[0]);
 					if(buf[0] == 20){
 						if(kill(pid[i], SIGKILL) == 0){
 							close(fds[i][0]);
