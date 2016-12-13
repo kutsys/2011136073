@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -26,6 +27,12 @@ int main(){
 		if(pid[i] == 0) {	//	case child process
 			sprintf(tmp[0], "%d", fds[i][0]);
 			sprintf(tmp[1], "%d", fds[i][1]);
+			if(fcntl(fds[i][0], F_SETFL, O_NONBLOCK == -1)){
+				exit(0);
+			}
+			if(fcntl(fds[i][1], F_SETFL, O_NONBLOCK == -1)){
+				exit(0);
+			}// file descriptor set on nonblocking mode
 			execl("./subproc", "./subproc", tmp[0], tmp[1], NULL);
 			break;
 		}
@@ -51,6 +58,7 @@ int main(){
 				return 0;
 			}
 		}
+		usleep(200);
 	}
 
 	return 0;
