@@ -24,6 +24,7 @@ int main(){
 	char menu;
 	char buff[10];
 	FILE* tmp;
+	pid_t my_pid;
 	int i = 0;
 
 	(void) signal(SIGALRM, monitor);
@@ -44,7 +45,8 @@ int main(){
 				printf("popen error2");
 			}
 			if(fgets(buff, 10, tmp) != NULL){
-				system("kill -9 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
+				system("kill -15 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
+				//system("kill -9 `ps -ef | grep defunct | awk '{print $3}'`");
 				printf("pmon said : killed ptest\n");
 			}
 			else{
@@ -53,18 +55,21 @@ int main(){
 			pclose(tmp);
 		}
 		else if(menu == 'S' || menu == 's'){
-			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
+			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | grep -v '<defunct>' | awk '{print $2}'", "r")) == NULL){
 				printf("popen error3");
 			}
 			if(fgets(buff, 10, tmp) == NULL){
 				printf("start\n");
 				alarm(0);
-				execl("./ptest", "./ptest", NULL);
+				my_pid = fork();
+				if(my_pid == 0){
+					execl("./ptest", "./ptest", NULL);
+				}
 			}
-			else{
+			else {
 				printf("already running\n");
+				pclose(tmp);
 			}
-			pclose(tmp);
 		}
 		else if(menu == 'R' || menu == 'r'){
 			if((tmp = popen("ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'", "r")) == NULL){
@@ -73,12 +78,19 @@ int main(){
 			if(fgets(buff, 10, tmp) == NULL){
 				printf("newly started\n");
 				alarm(0);
-				execl("./ptest", "./ptest", NULL);
+				my_pid = fork();
+				if(my_pid == 0){
+					execl("./ptest", "./ptest", NULL);
+				}
+
 			}
 			else{
-				system("kill -19 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
+				system("kill -15 `ps -ef | grep ptest | grep -v 'grep' | awk '{print $2}'`");
 				alarm(0);
-				execl("./ptest", "./ptest", NULL);
+				my_pid = fork();
+				if(my_pid == 0){
+					execl("./ptest", "./ptest", NULL);
+				}
 			}
 			pclose(tmp);
 		}
