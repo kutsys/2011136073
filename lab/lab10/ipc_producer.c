@@ -11,7 +11,7 @@
 
 int main(){
 	char buf[20];
-	int res, pipe_id;
+	int res, pipe_id, pipe_id2;
 	char buffer[PIPE_BUF + 1];
 	pid_t my_pid = getpid();
 
@@ -26,9 +26,8 @@ int main(){
 				if(res != 0) exit(EXIT_FAILURE);
 			}
 			printf("Process %d opening FIFO\n", getpid());
-			pipe_id = open("./named_pipe", O_WRONLY | O_NONBLOCK);
+			pipe_id = open("./named_pipe", O_WRONLY); // | O_NONBLOCK);
 			res = write(pipe_id, buffer, PIPE_BUF);
-			close(pipe_id);
 			break;
 		}
 		else{
@@ -37,14 +36,14 @@ int main(){
 		printf("plz reinput the \"start\" : ");
 	}
 	while(1){
-		if((res = open("./named_pipe2", O_RDWR)) < 0){
-			printf("fifo open failed");
+		if((pipe_id2 = open("./named_pipe2", O_RDONLY)) < 0){
+			printf("fifo open failed\n");
 			sleep(1);
 			continue;
 		}
 		else{
-			if(read(res, buffer, PIPE_BUF) < 0){
-				printf("read pipe2 fail");
+			if(read(pipe_id2, buffer, PIPE_BUF) < 0){
+				printf("read pipe2 fail\n");
 			}
 			else{
 				printf("%s\n", buffer, my_pid);
@@ -52,6 +51,8 @@ int main(){
 			}
 		}
 	}
+	close(pipe_id);
+	close(pipe_id2);
 
 
 	return 0;
