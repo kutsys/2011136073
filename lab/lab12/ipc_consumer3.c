@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/msg.h>
+#include <unistd.h>
+
+typedef struct{
+	long mtype;
+	char buf[1024];
+} ms;
+
+int main(){
+	int msqid;
+	ms msg;
+	char buf[1024];
+	int msg_size;
+	pid_t my_pid = getpid();
+	key_t my_key = 3000;
+	key_t my_key2 = 3001;
+
+	msg_size = sizeof(msg) - sizeof(msg.mtype);
+	if((msqid = msgget( my_key, IPC_CREAT | 0666)) == -1){
+		perror("msgget failed\n");
+		exit(0);
+	}
+	while(1){
+		if(msgrcv(msqid, &msg, msg_size, 1000, 0) == -1){
+			perror("msgrcv failed\n");
+			exit(0);
+		}
+		else{
+			printf("%s\n", msg.buf);
+			sprintf(buf, "%s, consumer's pid : %d, std_name : Woo yonggeun\n", msg.buf, my_pid);
+			strcpy(msg.buf, buf);
+			sleep(2);
+			break;
+		}
+		sleep(1);
+	}
+	msgctl(msqid, IPC_RMID, 0);
+	if((msqid = msgget( my_key2, IPC_CREAT | 0666)) == -1){
+		perror("msgget failed\n");
+		exit(0);
+	}
+	msgsnd(msqid, &msg, msg_size, 0);
+
+
+
+	return 0;
+}
